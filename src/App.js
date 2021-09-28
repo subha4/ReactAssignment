@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import PopulationCard from "../src/components/PopulationCard";
+import { useState } from 'react';
+import CsvReader from '../src/components/CsvReader';
+import "./App.css"
+
+
 
 function App() {
+
+  const [jsonObject,setJsonObject] = useState();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <CsvReader callback={(data)=>{setJsonObject(data)}}/>
+    {
+    jsonObject && 
+      <div className="card-container">
+
+    <PopulationCard sorting="highest" data={jsonObject}></PopulationCard>
+    <PopulationCard sorting="lowest" data={jsonObject}></PopulationCard>
     </div>
+    }
+    {!jsonObject && <h2>Please wait, while the results are being calculated!</h2>}
+    </>
   );
+    
 }
 
 export default App;
